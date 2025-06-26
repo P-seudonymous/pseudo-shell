@@ -11,5 +11,5 @@ making a basic shell to better understand how the existing shells work.
 
 -> sources followed:
 
-- [hexdump, yt channel](https://www.youtube.com/watch?v=YMEHrXSsdo0))
+- [hexdump, yt channel](https://www.youtube.com/watch?v=YMEHrXSsdo0)
 - [purdue uni](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
