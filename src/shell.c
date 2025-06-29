@@ -1,4 +1,4 @@
-// gcc shell.c ../lib/linenoise.h -o shell
+// gcc shell.c ../lib/linenoise.c -o shell
 #include <stdio.h>
 #include <string.h>
 #include "../lib/linenoise.h"
@@ -6,6 +6,11 @@
 
 #define PROMPT "$ "
 #define HISTORY_LEN 1024
+#define MAX_ARGS 1024
+#define TOKEN_SEP " \t"
+
+int s_read(char *input, char **args);
+
 
 int main(){
   
@@ -21,24 +26,33 @@ int main(){
     fprintf(stderr, "could not set linenoise command history.\n");
     exit(1);
   }
-
+  
   char *line;
+  char *args[MAX_ARGS];
   while((line=linenoise(PROMPT)) != NULL){
-    if(strcmp(line, "exit") == 0){
-      exit(1);
-    }else{
-    fprintf(stdout, "%s\n", line);
+    
+    // taking input
+    int args_read = s_read(line, args);
+    fprintf(stdout, "total args: %d\n", args_read);
+    
+    //skipping empty lines
+    if(args_read==0){
+      linenoiseFree(line);
+      continue;
+    }
+    //  todo: evaluate + print 
     linenoiseHistoryAdd(line);
     linenoiseFree(line);
-    }
   }
-
-
-
-
-
-
-
-
 }
 
+int s_read(char *input, char **args){
+  int i = 0;
+  char *token = strtok(input, TOKEN_SEP);
+  while (token != NULL && i < (MAX_ARGS-1)){
+    args[i++] = token;
+    token = strtok(NULL, TOKEN_SEP);
+  }
+  args[i] = NULL;
+  return i;
+}
